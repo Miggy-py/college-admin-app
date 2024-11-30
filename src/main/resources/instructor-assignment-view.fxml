@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collegeapp.perezrojocollegeappfinal.controller.AppController">
+   <children>
+      <Label layoutX="105.0" layoutY="15.0" prefHeight="17.0" prefWidth="331.0" text="Instructor Assignment">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToMainViewScene" text="Back" />
+      <TableView layoutX="16.0" layoutY="180.0" prefHeight="267.0" prefWidth="725.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="CRN" />
+          <TableColumn prefWidth="75.0" text="Major" />
+            <TableColumn prefWidth="75.0" text="Number" />
+            <TableColumn prefWidth="75.0" text="Days" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
