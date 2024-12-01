@@ -13,7 +13,7 @@ public class Application extends javafx.application.Application {
         System.out.println("JDK version: " + System.getProperty("java.version"));
         System.out.println("JDK vendor: " + System.getProperty("java.vendor"));
         System.out.println("JDK home: " + System.getProperty("java.home"));
-        System.out.println("work");
+        System.out.println("w");
 
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
