@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,6 +16,20 @@ public class AppController {
     @FXML
     private Stage stage;
     private Scene scene;
+
+    /*
+    @FXML
+    private ImageView backgroundImageView;
+    @FXML
+    private StackPane rootPane;
+
+    @FXML
+    public void initialize() {
+        backgroundImageView.fitWidthProperty().bind(rootPane.widthProperty());
+        backgroundImageView.fitHeightProperty().bind(rootPane.heightProperty());
+    }
+
+     */
 
     @FXML
     public void switchToCollegeInstructorScene(ActionEvent event) throws IOException {
