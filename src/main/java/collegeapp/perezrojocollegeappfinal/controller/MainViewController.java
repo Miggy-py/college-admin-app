@@ -12,39 +12,35 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class AppController {
-    @FXML
+public class MainViewController {
     private Stage stage;
     private Scene scene;
 
-    /*
     @FXML
-    private ImageView backgroundImageView;
+    private ImageView backgroundOfMainView;
     @FXML
-    private StackPane rootPane;
+    private StackPane mainViewStackPane;
 
     @FXML
     public void initialize() {
-        backgroundImageView.fitWidthProperty().bind(rootPane.widthProperty());
-        backgroundImageView.fitHeightProperty().bind(rootPane.heightProperty());
+        // Binding from 148, keeps the background image the same size as the StackPane in main-view
+        backgroundOfMainView.fitWidthProperty().bind(mainViewStackPane.widthProperty());
+        backgroundOfMainView.fitHeightProperty().bind(mainViewStackPane.heightProperty());
     }
-
-     */
 
     @FXML
     public void switchToCollegeInstructorScene(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/instructor-assignment-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/instructor-assignment-view.fxml"));
+        Parent root = fxmlLoader.load();
+        InstructorController instructorController = fxmlLoader.getController();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        instructorController.setStage(stage);
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void switchToMainViewScene(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/main-view.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
