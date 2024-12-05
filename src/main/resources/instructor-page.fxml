@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefHeight="540" prefWidth="960" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collegeapp.perezrojocollegeappfinal.controller.InPageController">
+    <VBox spacing="15" style="-fx-padding: 20;">
+      <Button mnemonicParsing="false" text="Log Out" />
+        <TabPane prefHeight="471.0" prefWidth="920.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab text="All Sections">
+               <content>
+                  <AnchorPane prefHeight="421.0" prefWidth="920.0">
+                     <children>
+                        <VBox prefHeight="432.0" prefWidth="920.0">
+                           <children>
+                              <TableView prefHeight="390.0" prefWidth="920.0">
+                                 <columns>
+                                    <TableColumn prefWidth="78.07880401611328" text="CRN" />
+                                    <TableColumn minWidth="0.0" prefWidth="88.93341064453125" text="Course" />
+                                    <TableColumn prefWidth="75.0" text="Number" />
+                                    <TableColumn prefWidth="75.0" text="Start" />
+                                    <TableColumn prefWidth="75.0" text="End" />
+                                    <TableColumn prefWidth="232.28262329101562" text="Days" />
+                                    <TableColumn prefWidth="45.717315673828125" text="Online" />
+                                    <TableColumn prefWidth="248.89337158203125" text="Instructor" />
+                                 </columns>
+                              </TableView>
+                           </children></VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Instructor Preferences">
+               <content>
+                  <AnchorPane prefHeight="423.0" prefWidth="920.0">
+                     <children>
+                        <VBox prefHeight="437.0" prefWidth="920.0" spacing="15" style="-fx-padding: 20;">
+                           <children>
+                              <ComboBox prefWidth="150.0" promptText="Choose Instructor" />
+
+                               <Label fx:id="instructorNamePreferencesLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Instructor Preferences | Please keep in mind not all preferences can be accommodated" />
+
+                               <HBox spacing="10">
+                                   <Label text="Preferred CRN(s):" />
+                                   <TextField fx:id="crnTextField" prefHeight="26.0" prefWidth="60.0" promptText="Enter CRN(s), separated by commas only" HBox.hgrow="ALWAYS" />
+                               </HBox>
+
+                               <HBox spacing="10">
+                                   <Label text="Preferred Days:" />
+                                   <CheckBox fx:id="mondayCheckBox" text="Monday" />
+                                   <CheckBox fx:id="tuesdayCheckBox" text="Tuesday" />
+                                   <CheckBox fx:id="wednesdayCheckBox" text="Wednesday" />
+                                   <CheckBox fx:id="thursdayCheckBox" text="Thursday" />
+                                   <CheckBox fx:id="fridayCheckBox" text="Friday" />
+                                   <CheckBox fx:id="saturdayCheckBox" text="Saturday" />
+                                   <CheckBox fx:id="sundayCheckBox" text="Sunday" />
+                               </HBox>
+
+                               <HBox spacing="10">
+                                   <Label text="Preferred Time Segments:">
+                                    <tooltip>
+                                       <Tooltip />
+                                    </tooltip></Label>
+                                   <CheckBox fx:id="earlyMorningCheckBox" text="Early Morning (7-9)" />
+                                   <CheckBox fx:id="morningCheckBox" text="Morning (9-12)" />
+                                   <CheckBox fx:id="afternoonCheckBox" text="Afternoon (12-3)" />
+                                   <CheckBox fx:id="lateAfternoonCheckBox" text="Late Afternoon (3-6)" />
+                                   <CheckBox fx:id="eveningCheckBox" text="Evening (&gt;6)" />
+                               </HBox>
+                               <Button text="Save Preferences for this Instructor" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Manual Edit">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <VBox prefHeight="437.0" prefWidth="920.0" spacing="15" style="-fx-padding: 20;">
+                            <children>
+                                <ComboBox prefHeight="26.0" prefWidth="215.0" promptText="Choose Section by CRN" />
+
+                                <Label fx:id="instructorNameLabel" prefHeight="23.0" prefWidth="187.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Edit Section Manually" />
+
+                                <HBox spacing="10">
+                                    <Label text="CRN:" />
+                                 <Label fx:id="crnLabel" layoutX="10.0" layoutY="10.0" text="{ COURSE RESOURCE NUMBER }" />
+                                </HBox>
+
+                                <HBox spacing="10">
+                                    <Label text="Course:" />
+                                 <Label fx:id="courseAndNumberLabel" layoutX="10.0" layoutY="10.0" text=" { COURSE AND NUMBER }" />
+                                </HBox>
+                              <HBox layoutX="30.0" layoutY="173.0" spacing="10">
+                                 <children>
+                                    <Label text="Time:">
+                                       <tooltip>
+                                          <Tooltip />
+                                       </tooltip>
+                                    </Label>
+                                    <Label fx:id="startAndEndTimeLabel" layoutX="10.0" layoutY="10.0" text="{ START TIME AND END TIME }">
+                                       <tooltip>
+                                          <Tooltip />
+                                       </tooltip>
+                                    </Label>
+                                 </children>
+                              </HBox>
+
+                                <HBox spacing="10">
+                                    <Label text="Days:">
+                                        <tooltip>
+                                            <Tooltip />
+                                        </tooltip></Label>
+                                 <Label fx:id="daysOfWeekLabel" layoutX="10.0" layoutY="10.0" text="{ DAYS OF WEEK }">
+                                    <tooltip>
+                                       <Tooltip />
+                                    </tooltip>
+                                 </Label>
+                                </HBox>
+                              <HBox layoutX="30.0" layoutY="205.0" spacing="10">
+                                 <children>
+                                    <Label text="Instructor">
+                                       <tooltip>
+                                          <Tooltip />
+                                       </tooltip>
+                                    </Label>
+                                    <Label fx:id="currentInstructorLabel" layoutX="10.0" layoutY="10.0" text="{ CURRENT INSTRUCTOR }">
+                                       <tooltip>
+                                          <Tooltip />
+                                       </tooltip>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <ComboBox fx:id="instructorComboBoxManual" prefHeight="26.0" prefWidth="215.0" promptText="Change Instructor" />
+                                <Button fx:id="updateSectionManuallyButton" text="Update Section" />
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+              </content>
+            </Tab>
+         </tabs></TabPane>
+      <HBox>
+         <children>
+            <Button fx:id="matchInstructorsButton" mnemonicParsing="false" text="Finalize and Match Instructors" />
+         </children>
+      </HBox>
+    </VBox>
+</StackPane>

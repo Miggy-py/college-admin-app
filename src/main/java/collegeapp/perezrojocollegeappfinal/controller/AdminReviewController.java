@@ -10,12 +10,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class InstructorController {
+public class AdminReviewController {
     public Stage stage;
     public Scene scene;
 
     @FXML
     public void switchToMainViewScene(ActionEvent event) throws IOException {
+        /*
+        Can this be done generically?
+         */
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main-view.fxml"));
         Parent root = fxmlLoader.load();
         MainViewController controller = fxmlLoader.getController();

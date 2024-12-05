@@ -1,16 +1,18 @@
 package collegeapp.perezrojocollegeappfinal.model;
 
+import collegeapp.perezrojocollegeappfinal.config.SchoolSettings;
+
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class TextbookContainer implements Serializable {
-    private GenericBag<Textbook> backpack;
+    private ArrayList<Textbook> backpack;
 
     public TextbookContainer() {
-        backpack = new GenericBag<>(Textbook.class, Settings.MAX_TEXTBOOKS_PER_SECTION.getSize());
+        backpack = new ArrayList<>(SchoolSettings.MAX_TEXTBOOKS_PER_SECTION.getSize());
     }
 
-    public GenericBag<Textbook> getBackpack() {
+    public ArrayList<Textbook> getBackpack() {
         return backpack;
     }
 
@@ -18,10 +20,13 @@ public class TextbookContainer implements Serializable {
         backpack.add(book);
     }
 
+    /*
     @Override
     public String toString() {
         return "TextbookContainer{" +
                 "Course Textbooks=" + Arrays.toString(backpack.search(Textbook.class, textbook -> true)) +
                 '}';
     }
+
+     */
 }

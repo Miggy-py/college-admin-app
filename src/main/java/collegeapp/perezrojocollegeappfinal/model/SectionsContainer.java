@@ -2,13 +2,27 @@ package collegeapp.perezrojocollegeappfinal.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.TreeSet;
 
+@Deprecated
 public class SectionsContainer implements Serializable {
-    private GenericBag<Section> sectionBag;
-    private int numOfSections;
+    private TreeSet<Section> sectionBag;
 
     public SectionsContainer() {
-        sectionBag = new GenericBag<>(Section.class, Settings.MAX_SECTION_SIZE.getSize());
+        sectionBag = new TreeSet<>();
+    }
+
+    public void addSection(Section section) {
+        sectionBag.add(section);
+    }
+
+    public TreeSet<Section> getSectionBag() {
+        return sectionBag;
+    }
+
+    /*
+    public SectionsContainer() {
+        sectionBag = new GenericBag<>(Section.class, SchoolSettings.MAX_SECTION_SIZE.getSize());
         numOfSections = 0;
     }
 
@@ -44,4 +58,6 @@ public class SectionsContainer implements Serializable {
                 ", numOfSections=" + numOfSections +
                 '}';
     }
+
+     */
 }

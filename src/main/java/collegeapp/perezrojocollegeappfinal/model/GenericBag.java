@@ -6,6 +6,7 @@ import java.util.Arrays;
 // import java.util.Random;
 import java.util.function.Predicate;
 
+@Deprecated
 public class GenericBag <E extends Comparable<E>> implements Serializable {
     private E[] arr;
     private int nElems;

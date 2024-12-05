@@ -1,14 +1,37 @@
 package collegeapp.perezrojocollegeappfinal.model;
 
 import java.io.Serializable;
-import java.util.Random;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.PriorityQueue;
 
+@Deprecated
 public class InstructorList implements Serializable{
-    private GenericBag<Instructor> instructors;
-    private int numberOfInstructors;
+    private HashMap<String, Instructor> instructors;
+    private PriorityQueue<Instructor> instructorPriorityQueue;
 
     public InstructorList() {
-        instructors = new GenericBag<>(Instructor.class, Settings.MAX_INSTRUCTORS.getSize());
+        instructors = new HashMap<>();
+        instructorPriorityQueue = new PriorityQueue<>(Comparator.comparing(Instructor::getHireDate));
+    }
+
+    public void addInstructor(String instructorID, Instructor instructor) {
+        instructors.put(instructorID, instructor);
+        instructorPriorityQueue.add(instructor);
+    }
+
+    public Instructor getInstructor(String instructorID) {
+        return instructors.get(instructorID);
+    }
+
+    public PriorityQueue<Instructor> getInstructorPriorityQueue() {
+        return instructorPriorityQueue;
+    }
+}
+
+    /*
+    public InstructorList() {
+        instructors = new GenericBag<>(Instructor.class, SchoolSettings.MAX_INSTRUCTORS.getSize());
     }
 
     public GenericBag<Instructor> getInstructors() {
@@ -44,4 +67,6 @@ public class InstructorList implements Serializable{
     public Instructor[] fireInstructor(String id) {
         return instructors.removeCopy(Instructor.class, instructor -> instructor.getId().equals(id));
     }
-}
+
+     */
+

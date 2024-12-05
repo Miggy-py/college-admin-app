@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="collegeapp.perezrojocollegeappfinal.controller.InstructorOverviewController"
+            prefHeight="540.0" prefWidth="960.0">
+
+    <VBox spacing="15" style="-fx-padding: 20;" prefHeight="540" prefWidth="960">
+        <!-- Max Instructors Label -->
+        <Label fx:id="maxInstructorsLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Max Instructors: " />
+
+        <!-- Instructors List -->
+        <VBox spacing="10" VBox.vgrow="ALWAYS">
+            <Label text="Instructors:" />
+            <ListView fx:id="instructorsListView" VBox.vgrow="ALWAYS">
+                <!-- For each instructor, there will be a button/link to set preferences -->
+                <items>
+
+
+                </items>
+            </ListView>
+        </VBox>
+
+        <!-- Button to Hire a New Instructor -->
+        <Button text="Hire New Instructor" onAction="#handleHireNewInstructor" />
+    </VBox>
+</StackPane>

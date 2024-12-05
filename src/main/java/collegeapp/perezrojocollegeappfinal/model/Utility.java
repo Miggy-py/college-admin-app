@@ -1,13 +1,14 @@
 package collegeapp.perezrojocollegeappfinal.model;
 
+import collegeapp.perezrojocollegeappfinal.config.SchoolSettings;
 import collegeapp.perezrojocollegeappfinal.datacenter.DataCenter;
-import collegeapp.perezrojocollegeappfinal.model.*;
 
 import java.time.LocalTime;
 import java.util.*;
 import java.util.function.Function;
 
 public class Utility {
+    /*
     private static final Random rand = new Random();
     private static final DataCenter dc = DataCenter.getInstance();
 
@@ -37,7 +38,7 @@ public class Utility {
     defined in our SectionsContainer.
 
     Then our 3rd and 4th parameter are just what to return, success or failure.
-     */
+
     public static <E> String performAction(String idOrTitle, Function<String, E[]> action, String successMessage, String failureMessage) {
         E[] result = action.apply(idOrTitle);
         return result.length != 0 ? Arrays.toString(result) + " " + successMessage : failureMessage;
@@ -59,7 +60,7 @@ public class Utility {
     }
 
     public static String hireInstructor(Name name, Major major) {
-        if(dc.getInstructorList().getNumOfInstructorsMajor(major) == Settings.MAX_PROFESSORS_PER_COURSE.getSize()){
+        if(dc.getInstructorList().getNumOfInstructorsMajor(major) == SchoolSettings.MAX_PROFESSORS_PER_COURSE.getSize()){
             return "Max Instructors Reached";
         }
 
@@ -120,7 +121,7 @@ public class Utility {
 
         // Makes sure that the while loop won't go on forever by making sure the student can enroll into
         // enough sections
-        int maxSections = Math.min(Settings.MAX_SECTIONS_PER_STUDENT.getSize(), sectionsOfStudentMajor.length);
+        int maxSections = Math.min(SchoolSettings.MAX_SECTIONS_PER_STUDENT.getSize(), sectionsOfStudentMajor.length);
 
         SectionsContainer enrolledInSections = new SectionsContainer();
 
@@ -155,7 +156,7 @@ public class Utility {
     private static Classroom generateClassroom(Major major){
         String room = "" + rand.nextInt(100, 399);
         String building = major.getAsssociatedBuilding();
-        int capacity = rand.nextInt(26, Settings.MAX_CLASSROOM_SEATS.getSize());
+        int capacity = rand.nextInt(26, SchoolSettings.MAX_CLASSROOM_SEATS.getSize());
         boolean hasProjector = rand.nextBoolean();
 
         return new Classroom(room, building, capacity, hasProjector);
@@ -165,7 +166,7 @@ public class Utility {
         TextbookContainer backpack = new TextbookContainer();
 
         // Allows for only a max number of textbooks, college decides
-        int numberOfTextbooks = rand.nextInt(0, Settings.MAX_TEXTBOOKS_PER_SECTION.getSize() + 1);
+        int numberOfTextbooks = rand.nextInt(0, SchoolSettings.MAX_TEXTBOOKS_PER_SECTION.getSize() + 1);
 
         for (int i = 0; i < numberOfTextbooks; i++) {
             Textbook textbook = new Textbook(major + "Edition " + i, generateRandomName());
@@ -180,7 +181,7 @@ public class Utility {
 
         if(instructors.getNumOfInstructorsMajor(major) == 0){
             // Hire as many new instructors of required major as allowed :)
-            for(int i = 0; i < Settings.MAX_PROFESSORS_PER_COURSE.getSize(); i++){
+            for(int i = 0; i < SchoolSettings.MAX_PROFESSORS_PER_COURSE.getSize(); i++){
                 instructors.addInstructor(new Instructor(generateRandomName(), major));
             }
         }
@@ -188,29 +189,29 @@ public class Utility {
         return instructors.getRandomInstructor(major);
     }
 
+
     /*
     At first, this method generateRandomNames always loaded in the txt files every single time into the ArrayLists.
     To fix this, placing the loadNames part of the method into the DataCenter and the ArrayLists there, the
     lists only have to be populated once. Greatly reduced the time taken to run program.
-     */
-    private static Name generateRandomName() {
-        ArrayList<String> firstNames = dc.getFirstNames();
-        ArrayList<String> lastNames = dc.getLastNames();
 
-        String firstName = firstNames.get(rand.nextInt(firstNames.size()));
+    private static Name generateRandomName() {
+        TreeSet<String> firstNames = dc.getFirstNames();
+        TreeSet<String> lastNames = dc.getLastNames();
+
+        String firstName = firstNames.(rand.nextInt(firstNames.size()));
         String lastName = lastNames.get(rand.nextInt(lastNames.size()));
 
         return new Name(firstName, lastName);
     }
 
-    private static ArrayList<String> createUniqueCRNs(int numOfSections){
-        ArrayList<String> checkedCRNs = new ArrayList<>(numOfSections);
+    private static HashSet<String> createUniqueCRNs(int numOfSections){
+        HashSet<String> checkedCRNs = new HashSet<>(numOfSections);
 
         while(checkedCRNs.size() < numOfSections){
-            String randomCRN = "" + rand.nextInt(Settings.LOWER_CRN.getSize(), Settings.MAX_CRN.getSize());
-            if(!checkedCRNs.contains(randomCRN)){
-                checkedCRNs.add(randomCRN);
-            }
+            String randomCRN = "" + rand.nextInt(SchoolSettings.LOWER_CRN.getSize(), SchoolSettings.MAX_CRN.getSize());
+            checkedCRNs.add(randomCRN);
+
         }
         return checkedCRNs;
     }
@@ -232,9 +233,9 @@ public class Utility {
     }
 
     private static TimeRange generateTimeRange(){
-
         int startHour = rand.nextInt(7) + 13; // Start between 7 AM and 8 PM
         int startMinute = rand.nextInt(60);  // Random minute between 0 and 59
+
         LocalTime startTime = LocalTime.of(startHour, startMinute);
         LocalTime endTime = startTime.plusHours(rand.nextInt(1, 4)); // Duration 1 to 3 hours
 
@@ -244,4 +245,7 @@ public class Utility {
     private static TimeSegments getTimeSegment(LocalTime startTime){
         return TimeSegments.getSegmentForTime(startTime);
     }
+
+     */
+
 }

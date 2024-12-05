@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collegeapp.perezrojocollegeappfinal.controller.InstructorController">
+<StackPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collegeapp.perezrojocollegeappfinal.controller.AdminReviewController">
    <children>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" spacing="15.0" style="-fx-padding: 20">
          <children>
             <AnchorPane>
                <children>
-                  <Button mnemonicParsing="false" onAction="#switchToMainViewScene" text="Log Out" />
+                  <Button mnemonicParsing="false" onAction="#switchToMainViewScene" text="Back" />
                   <Label fx:id="headerText" alignment="CENTER" contentDisplay="CENTER" layoutX="64.0" layoutY="-9.0" prefHeight="44.0" prefWidth="858.0" text="{SCHOOL} Instructor Assignment">
                      <font>
                         <Font size="36.0" />
@@ -29,7 +29,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="104.0" prefWidth="920.0">
+            <AnchorPane prefHeight="38.0" prefWidth="920.0">
                <children>
                   <ComboBox layoutY="-1.0" prefWidth="150.0" promptText="View By" />
                   <ComboBox layoutX="465.0" layoutY="-1.0" prefWidth="150.0" promptText="Sort By" />
@@ -56,12 +56,6 @@
                   </TableView>
               </items>
             </SplitPane>
-            <AnchorPane prefHeight="68.0" prefWidth="920.0">
-               <children>
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="220.0" text="Generate Courses" />
-                  <Button layoutX="460.0" layoutY="1.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="219.0" text="Hire Instructors" />
-               </children>
-            </AnchorPane>
          </children>
       </VBox>
    </children>
