@@ -15,16 +15,17 @@ public class Instructor implements Serializable {
     private LocalDate hireDate;
     private int creditsTeaching;
     private HashSet<String> preferredCRNs;
-    private EnumSet<DayOfWeek> preferredDays;
+    private EnumSet<DaysOfWeek> preferredDays;
     private EnumSet<TimeSegments> preferredTimeSegments;
 
-    public Instructor(Name name, Major majorTaught) {
+    public Instructor(Name name, Major majorTaught, LocalDate hireDate) {
         this.name = name;
         this.majorTaught = majorTaught;
         this.id = generateID();
         this.creditsTeaching = 0;
+        this.hireDate = hireDate;
         this.preferredCRNs = new HashSet<>();
-        this.preferredDays = EnumSet.noneOf(DayOfWeek.class);
+        this.preferredDays = EnumSet.noneOf(DaysOfWeek.class);
         this.preferredTimeSegments = EnumSet.noneOf(TimeSegments.class);
     }
 
@@ -72,11 +73,11 @@ public class Instructor implements Serializable {
         this.preferredCRNs = preferredCRNs;
     }
 
-    public EnumSet<DayOfWeek> getPreferredDays() {
+    public EnumSet<DaysOfWeek> getPreferredDays() {
         return preferredDays;
     }
 
-    public void setPreferredDays(EnumSet<DayOfWeek> preferredDays) {
+    public void setPreferredDays(EnumSet<DaysOfWeek> preferredDays) {
         this.preferredDays = preferredDays;
     }
 
@@ -94,20 +95,16 @@ public class Instructor implements Serializable {
     Singleton instead of in the class
 
 
+     */
+
     @Override
     public String toString() {
         return "Instructor{" +
                 "id='" + id + '\'' +
+                ", hire date=" + hireDate +
                 ", name=" + name +
                 ", majorTaught=" + majorTaught +
                 '}';
     }
-
-    @Override
-    public int compareTo(Instructor o) {
-        return id.compareTo(o.id);
-    }
-
-    */
 
 }

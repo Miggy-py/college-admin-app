@@ -3,7 +3,6 @@ package collegeapp.perezrojocollegeappfinal.model;
 import java.io.Serializable;
 import java.util.TreeMap;
 
-@Deprecated
 public class CourseContainer implements Serializable {
     private TreeMap<String, Course> courseBag;
 
@@ -11,12 +10,19 @@ public class CourseContainer implements Serializable {
         courseBag = new TreeMap<>();
     }
 
-    public void addCourse(String courseID, Course course) {
-        courseBag.put(courseID ,course);
+    public void addCourse(String courseNumber, Course course) {
+        courseBag.put(courseNumber ,course);
     }
 
     public Course getCourse(String courseID) {
         return courseBag.get(courseID);
+    }
+
+    @Override
+    public String toString() {
+        return "CourseContainer{" +
+                "courseBag=" + courseBag +
+                '}';
     }
 
     /*

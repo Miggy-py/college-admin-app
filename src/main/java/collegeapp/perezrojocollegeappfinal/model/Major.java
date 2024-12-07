@@ -1,6 +1,8 @@
 package collegeapp.perezrojocollegeappfinal.model;
 
-public enum Major {
+import java.io.Serializable;
+
+public enum Major implements Serializable {
     MATHEMATICS("MAT", Buildings.RI.getName()),
     COMPUTER_SCIENCE("CSE", Buildings.RI.getName()),
     BIOLOGY("BIO", Buildings.WJL.getName()),

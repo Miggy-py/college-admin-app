@@ -14,19 +14,21 @@ public class Student implements Comparable<Student>, Serializable {
 
     public Student(Name name, Major major, double gpa, double creditsCompleted, SectionsContainer currentSections) {
         this.name = name;
-        // this.id = generateID();
+        this.id = generateID();
         this.major = major;
         this.gpa = gpa;
         this.creditsCompleted = creditsCompleted;
         this. currentSections = currentSections;
     }
+
+    private String generateID() {
+        return "" + DataCenter.getInstance().getStudentIDBase();
+    }
+
     /*
     Again the student base for the IDs has to be stored in DC to have it unique across majors
 
 
-    private String generateID() {
-        return "" + DataCenter.getInstance().getStudentBase();
-    }
 
     public String getId() {
         return id;

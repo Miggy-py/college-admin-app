@@ -11,9 +11,9 @@ public class DataCenter implements Serializable{
     private SchoolData schoolData;
     private int studentIDBase;
     private int instructorIDBase;
-    private int schoolIDBase;
-    private ArrayList<String> firstNames;
-    private ArrayList<String> lastNames;
+    // private int schoolIDBase;
+    private final ArrayList<String> FIRST_NAMES;
+    private final ArrayList<String> LAST_NAMES;
     private final int SIZE_OF_FIRSTNAMES = 6000;
     private final int SIZE_OF_LASTNAMES = 90000;
 
@@ -21,9 +21,9 @@ public class DataCenter implements Serializable{
         schoolData = new SchoolData();
         studentIDBase = SchoolSettings.STUDENT_ID_BASE.getSize();
         instructorIDBase = SchoolSettings.INSTRUCTOR_ID_BASE.getSize();
-        schoolIDBase = SchoolSettings.SCHOOL_ID_BASE.getSize();
-        firstNames = new ArrayList<>(SIZE_OF_FIRSTNAMES);
-        lastNames = new ArrayList<>(SIZE_OF_LASTNAMES);
+        // schoolIDBase = SchoolSettings.SCHOOL_ID_BASE.getSize();
+        FIRST_NAMES = new ArrayList<>(SIZE_OF_FIRSTNAMES);
+        LAST_NAMES = new ArrayList<>(SIZE_OF_LASTNAMES);
         loadNames();
     }
 
@@ -39,18 +39,18 @@ public class DataCenter implements Serializable{
         return ++instructorIDBase;
     }
 
-    public ArrayList<String> getFirstNames() {
-        return firstNames;
+    public ArrayList<String> getFIRST_NAMES() {
+        return FIRST_NAMES;
     }
 
-    public ArrayList<String> getLastNames() {
-        return lastNames;
+    public ArrayList<String> getLAST_NAMES() {
+        return LAST_NAMES;
     }
 
     private void loadNames() {
         try (Scanner scan = new Scanner(new File("first-names.txt"))) {
             while (scan.hasNextLine()) {
-                firstNames.add(scan.nextLine());
+                FIRST_NAMES.add(scan.nextLine());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,7 +58,7 @@ public class DataCenter implements Serializable{
 
         try (Scanner scan = new Scanner(new File("last-names.txt"))) {
             while (scan.hasNextLine()) {
-                lastNames.add(scan.nextLine());
+                LAST_NAMES.add(scan.nextLine());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class DataCenter implements Serializable{
 
     public static DataCenter load() {
         DataCenter inst = null;
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("collegeData.dat"))) {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/main/java/collegeapp/perezrojocollegeappfinal/datacenter/collegeData.dat"))) {
             inst = (DataCenter)ois.readObject();
         }catch(Exception e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class DataCenter implements Serializable{
     }
 
     public boolean save(){
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("collegeData.dat"))) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/java/collegeapp/perezrojocollegeappfinal/datacenter/collegeData.dat"))) {
             oos.writeObject(instance);
         }catch(Exception e) {
             e.printStackTrace();
@@ -96,10 +96,6 @@ public class DataCenter implements Serializable{
         }
 
         return true;
-    }
-
-    public TreeSet<Section> getSections() {
-        return schoolData.getSectionsContainer();
     }
 }
 
@@ -109,7 +105,7 @@ public class DataCenter implements Serializable{
     private CourseContainer courses;
     private SectionsContainer sections;
     private StudentsEnrolled studentsEnrolled;
-    private InstructorList instructorList;
+    private InstructorContainer instructorList;
     private ArrayList<String> firstNames;
     private ArrayList<String> lastNames;
     // making ID this rigid is bad, find a way to make a general ID for any Class
@@ -120,7 +116,7 @@ public class DataCenter implements Serializable{
         courses = new CourseContainer();
         sections = new SectionsContainer();
         studentsEnrolled = new StudentsEnrolled();
-        instructorList = new InstructorList();
+        instructorList = new InstructorContainer();
         firstNames = new ArrayList<>();
         lastNames = new ArrayList<>();
         loadNames();
@@ -180,7 +176,7 @@ public class DataCenter implements Serializable{
         studentsEnrolled.enroll(student);
     }
 
-    public InstructorList getInstructorList(){
+    public InstructorContainer getInstructorList(){
         return instructorList;
     }
 

@@ -2,36 +2,45 @@ package collegeapp.perezrojocollegeappfinal.model;
 
 import collegeapp.perezrojocollegeappfinal.config.SchoolSettings;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class SchoolData {
-    private TreeMap<String, Course> courseContainer;
-    private TreeSet<Section> sectionContainer;
-    private TreeMap<String, Student> studentsEnrolled;
-    private HashMap<String, Instructor> instructorList;
+public class SchoolData implements Serializable {
+    private CourseContainer courseContainer;
+    private SectionsContainer sectionContainer;
+    private StudentsEnrolled studentsEnrolled;
+    private InstructorContainer instructorContainer;
     private PriorityQueue<Instructor> instructorPriorityQueue;
 
     public SchoolData() {
-        courseContainer = new TreeMap<>();
-        sectionContainer = new TreeSet<>();
-        studentsEnrolled = new TreeMap<>();
-        instructorList = new HashMap<>(SchoolSettings.MAX_INSTRUCTORS.getSize());
+        courseContainer = new CourseContainer();
+        sectionContainer = new SectionsContainer();
+        studentsEnrolled = new StudentsEnrolled();
+        instructorContainer = new InstructorContainer(SchoolSettings.MAX_INSTRUCTORS.getSize());
         instructorPriorityQueue = new PriorityQueue<>(SchoolSettings.MAX_INSTRUCTORS.getSize());
     }
 
-    public TreeMap<String, Course> getCourseContainer() {
+    public CourseContainer getCourseContainer() {
         return courseContainer;
     }
 
-    public TreeSet<Section> getSectionsContainer() {
+    public SectionsContainer getSectionsContainer() {
         return sectionContainer;
     }
 
-    public TreeMap<String, Student> getStudentsEnrolled() {
+    public StudentsEnrolled getStudentsEnrolled() {
         return studentsEnrolled;
     }
 
-    public HashMap<String, Instructor> getInstructorList() {
-        return instructorList;
+    public InstructorContainer getInstructorList() {
+        return instructorContainer;
+    }
+
+    public void addCourse(Course course) {
+        courseContainer.addCourse(course.getCourseNumber(), course);
+    }
+
+    public void addSection(Section section) {
+        sectionContainer.addSection(section);
     }
 }

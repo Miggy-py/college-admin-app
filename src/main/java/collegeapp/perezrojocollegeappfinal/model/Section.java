@@ -2,12 +2,14 @@ package collegeapp.perezrojocollegeappfinal.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 
 public class Section implements Comparable<Section>, Serializable {
     private TimeRange timeRange;
     private TimeSegments timeSegment;
-    private ArrayList<DayOfWeek> classDays;
+    private LinkedHashSet<DaysOfWeek> classDays;
     private String crn; // unique id for the section
     private Instructor instructor;
     private TextbookContainer bookList;
@@ -15,12 +17,12 @@ public class Section implements Comparable<Section>, Serializable {
     private String courseNumber;
     private Classroom classroom;
     private boolean isOnline;
-    private ArrayList<String> studentIDs;
+    private HashSet<String> studentIDs;
 
-    public Section(TimeRange timeRange, TimeSegments timeSegment,ArrayList<DayOfWeek> classDays, String crn,
+    public Section(TimeRange timeRange, TimeSegments timeSegment, LinkedHashSet<DaysOfWeek> classDays, String crn,
                    Instructor instructor, TextbookContainer bookList, Major major,
                    String courseNumber, Classroom classroom, boolean isOnline,
-                   ArrayList<String> studentIDs) {
+                   HashSet<String> studentIDs) {
         this.timeRange = timeRange;
         this.timeSegment = timeSegment;
         this.classDays = classDays;
@@ -50,11 +52,11 @@ public class Section implements Comparable<Section>, Serializable {
         this.timeRange = timeRange;
     }
 
-    public ArrayList<DayOfWeek> getClassDays() {
+    public LinkedHashSet<DaysOfWeek> getClassDays() {
         return classDays;
     }
 
-    public void setClassDays(ArrayList<DayOfWeek> classDays) {
+    public void setClassDays(LinkedHashSet<DaysOfWeek> classDays) {
         this.classDays = classDays;
     }
 
@@ -114,7 +116,7 @@ public class Section implements Comparable<Section>, Serializable {
         isOnline = online;
     }
 
-    public ArrayList<String> getStudentIDs() {
+    public HashSet<String> getStudentIDs() {
         return studentIDs;
     }
 

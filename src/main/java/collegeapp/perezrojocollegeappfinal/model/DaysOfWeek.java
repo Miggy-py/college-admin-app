@@ -1,11 +1,13 @@
 package collegeapp.perezrojocollegeappfinal.model;
 
-public enum DayOfWeek {
+import java.io.Serializable;
+
+public enum DaysOfWeek implements Serializable {
     SUN("Sunday"), MON("Monday"), TUE("Tuesday"), WED("Wednesday"), THU("Thursday"), FRI("Friday"), SAT("Saturday");
 
     private String dayOfWeek;
 
-    DayOfWeek(String dayOfWeek) {
+    DaysOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 

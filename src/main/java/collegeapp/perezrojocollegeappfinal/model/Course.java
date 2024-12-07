@@ -65,8 +65,7 @@ public class Course implements Comparable<Course>, Serializable {
                 ", courseNumber='" + courseNumber + '\'' +
                 ", description='" + description + '\'' +
                 ", credits=" + credits +
-                ", sectionList=" +  +
-                '}';
+                ", sectionList=" +  sectionList;
     }
 
     /*

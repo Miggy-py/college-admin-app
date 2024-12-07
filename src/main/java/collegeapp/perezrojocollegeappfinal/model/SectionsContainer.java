@@ -2,21 +2,21 @@ package collegeapp.perezrojocollegeappfinal.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
-@Deprecated
 public class SectionsContainer implements Serializable {
-    private TreeSet<Section> sectionBag;
+    private TreeMap<String, Section> sectionBag;
 
     public SectionsContainer() {
-        sectionBag = new TreeSet<>();
+        sectionBag = new TreeMap<>();
     }
 
     public void addSection(Section section) {
-        sectionBag.add(section);
+        sectionBag.put(section.getCrn(),section);
     }
 
-    public TreeSet<Section> getSectionBag() {
+    public TreeMap<String, Section> getSectionBag() {
         return sectionBag;
     }
 
@@ -51,13 +51,15 @@ public class SectionsContainer implements Serializable {
         return numOfSections;
     }
 
+     */
+
     @Override
     public String toString() {
         return "SectionsContainer{" +
-                "sectionBag=" + Arrays.toString(sectionBag.search(Section.class, section -> true)) +
-                ", numOfSections=" + numOfSections +
+                "sectionBag=" + sectionBag.toString() +
+                ", numOfSections=" + sectionBag.size() +
                 '}';
     }
 
-     */
+
 }

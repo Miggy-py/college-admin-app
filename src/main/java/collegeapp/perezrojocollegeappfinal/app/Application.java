@@ -14,7 +14,7 @@ public class Application extends javafx.application.Application {
         System.out.println("JDK vendor: " + System.getProperty("java.vendor"));
         System.out.println("JDK home: " + System.getProperty("java.home"));
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/main-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("CourseFlow");
         stage.setScene(scene);

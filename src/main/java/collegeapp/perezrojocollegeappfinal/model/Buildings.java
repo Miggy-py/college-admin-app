@@ -1,6 +1,8 @@
 package collegeapp.perezrojocollegeappfinal.model;
 
-public enum Buildings {
+import java.io.Serializable;
+
+public enum Buildings implements Serializable {
     RI("Riverhead"),
     IS("Islip Arts"),
     SM("Smithtown Science"),

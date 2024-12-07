@@ -1,23 +1,26 @@
 package collegeapp.perezrojocollegeappfinal.controller;
 
 import collegeapp.perezrojocollegeappfinal.datacenter.DataCenter;
-import collegeapp.perezrojocollegeappfinal.model.DayOfWeek;
-import collegeapp.perezrojocollegeappfinal.model.Instructor;
-import collegeapp.perezrojocollegeappfinal.model.Section;
-import collegeapp.perezrojocollegeappfinal.model.TimeSegments;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import collegeapp.perezrojocollegeappfinal.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class PreferencesController {
+public class InstructorPageController {
+
+
+
     @FXML
     public ListView instructorListView;
     @FXML
@@ -27,21 +30,22 @@ public class PreferencesController {
     @FXML
     private TextField crnTextField;
     @FXML
-    private HashMap<DayOfWeek, CheckBox> dayCheckBoxes;
+    private HashMap<DaysOfWeek, CheckBox> dayCheckBoxes;
     @FXML
     private ComboBox<TimeSegments> timeSlotComboBox;
     @FXML
     private ListView<Section> sectionsListView;
 
     private Instructor instructor;
-    private DataCenter dataCenter;
+    private DataCenter dataCenter = DataCenter.getInstance();
+    private SchoolData schoolData;
     private Stage stage;
+    private Scene scene;
 
     @FXML
     public void initialize() {
-        dataCenter = DataCenter.getInstance();
         // timeSlotComboBox.setItems(FXCollections.observableArrayList(TimeSegments.values()));
-        loadSections();
+        schoolData = getLatestSchoolData();
     }
 
     public void setInstructor(Instructor instructor) {
@@ -70,16 +74,23 @@ public class PreferencesController {
     }
 
     @FXML
-    private void handleBackToOverview() {
+    private void handleBackToOverview(ActionEvent event) throws IOException {
         // Logic to return to the previous scene (overview screen)
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/login-view.fxml"));
+        Parent root = fxmlLoader.load();
+        MainViewController mainViewController = fxmlLoader.getController();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        mainViewController.setStage(stage);
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    private void loadSections() {
 
+    private SchoolData getLatestSchoolData() {
+        return dataCenter.getSchoolData();
     }
 
-    public void handleHireNewInstructor(ActionEvent actionEvent) {
-    }
 
     public void setStage(Stage stage) {
         this.stage = stage;

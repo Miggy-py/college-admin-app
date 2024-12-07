@@ -3,93 +3,48 @@ package collegeapp.perezrojocollegeappfinal.model;
 import collegeapp.perezrojocollegeappfinal.config.SchoolSettings;
 import collegeapp.perezrojocollegeappfinal.datacenter.DataCenter;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.function.Function;
 
-public class Utility {
-    /*
+public class Utility implements Serializable {
     private static final Random rand = new Random();
-    private static final DataCenter dc = DataCenter.getInstance();
+    private static DataCenter dc = DataCenter.getInstance();
 
     public static Course createCourse(Major major, int numOfSections){
         String courseNumber = "" + rand.nextInt(100, 300);
         int randomCredit = rand.nextInt(1,5);
 
-        Course c = new Course(
+        Course newCourse = new Course(
                 major.getCourseName(),
                 courseNumber,
                 "This is " + courseNumber,
                 randomCredit,
                 createSections(major, numOfSections, courseNumber));
 
-        dc.addCourse(c);
+        dc.getSchoolData().addCourse(newCourse);
 
-        return c;
+        return newCourse;
     }
 
-    /*
-    These 3 functions originally did not use the performAction method but instead just had very similar repeated code.
-
-    First parameter is what exactly will identify the element we're looking for, here it's either and ID or CRN title.
-
-    Second parameter is the interface function which takes in our String idOrTitle and gives back a result in a generic
-    E[] array since that is what GenericBag gives back when for example removeShifting using the removeSection method
-    defined in our SectionsContainer.
-
-    Then our 3rd and 4th parameter are just what to return, success or failure.
-
-    public static <E> String performAction(String idOrTitle, Function<String, E[]> action, String successMessage, String failureMessage) {
-        E[] result = action.apply(idOrTitle);
-        return result.length != 0 ? Arrays.toString(result) + " " + successMessage : failureMessage;
-    }
-
-    public static String removeSection(String crn){
-        SectionsContainer sc = dc.getSectionsContainer();
-        return performAction(crn, sc::removeSection, "REMOVED", "Section not found");
-    }
-
-    public static String expelStudent(String id) {
-        StudentsEnrolled si = dc.getStudentsEnrolled();
-        return performAction(id, si::expelStudent, "EXPELLED", "Student not found");
-    }
-
-    public static String fireInstructor(String id) {
-        InstructorList il = dc.getInstructorList();
-        return performAction(id, il::fireInstructor, "FIRED", "Instructor not found");
-    }
-
-    public static String hireInstructor(Name name, Major major) {
-        if(dc.getInstructorList().getNumOfInstructorsMajor(major) == SchoolSettings.MAX_PROFESSORS_PER_COURSE.getSize()){
-            return "Max Instructors Reached";
-        }
-
-        Instructor instructor = new Instructor(name, major);
-
-        dc.hireInstructor(instructor);
-        return "Instructor Hired";
-    }
-
-    public static String removeCourse(String courseTitle, String courseNumber) {
-        CourseContainer c = dc.getCourses();
-        return performAction(courseTitle + " " + courseNumber, title -> c.removeCourse(courseTitle, courseNumber), "REMOVED", "Course not found");
-    }
 
     public static SectionsContainer createSections(Major major, int numOfSections, String courseNumber){
         SectionsContainer newSections = new SectionsContainer();
-        ArrayList<String> uniqueCRNS = createUniqueCRNs(numOfSections);
+        HashSet<String> uniqueCRNS = createUniqueCRNs(numOfSections);
 
         for (int i = 0; i < numOfSections; i++) {
             boolean isOnline = rand.nextBoolean();
-            ArrayList<String> studentIds = new ArrayList<>();
+            HashSet<String> studentIds = new HashSet<>(); // fix the size
             TimeRange time = generateTimeRange();
+            String[] crnsToAdd = uniqueCRNS.toArray(new String[0]);
 
-            Section s = new Section(
+            Section newSectionToAdd = new Section(
                     time,
                     getTimeSegment(time.getStartTime()),
                     randomClassDays(),
-                    uniqueCRNS.get(i),
-                    getInstructor(major),
+                    crnsToAdd[i],
+                    null,
                     generateTextbookContainer(major),
                     major,
                     courseNumber,
@@ -97,15 +52,21 @@ public class Utility {
                     isOnline,
                     studentIds);
 
-            newSections.addSection(s);
-            dc.addSection(s);
+            newSections.addSection(newSectionToAdd);
+            dc.getSchoolData().addSection(newSectionToAdd);
         }
 
         return newSections;
     }
 
+    /*
+    private static void populateSection(Major major){
+
+    }
+
+
     // SHORTEN THIS
-    public static Optional<Student> makeDummyStudent(Major major){
+    private static Student makeDummyStudent(Major major){
         Name name = generateRandomName();
         double gpa = rand.nextDouble(1.5, 4.1);
         int creditsCompleted = rand.nextInt(64);
@@ -144,6 +105,7 @@ public class Utility {
         return Optional.of(dummy);
     }
 
+
     private static boolean studentAlreadyInSection(Section section, SectionsContainer enrolledInSections) {
         for (Section enrolledSection : enrolledInSections.getAllSections()) {
             if (enrolledSection.getCrn().equals(section.getCrn())) {
@@ -152,6 +114,8 @@ public class Utility {
         }
         return false;
     }
+     */
+
 
     private static Classroom generateClassroom(Major major){
         String room = "" + rand.nextInt(100, 399);
@@ -161,6 +125,7 @@ public class Utility {
 
         return new Classroom(room, building, capacity, hasProjector);
     }
+
 
     private static TextbookContainer generateTextbookContainer(Major major){
         TextbookContainer backpack = new TextbookContainer();
@@ -176,65 +141,84 @@ public class Utility {
         return backpack;
     }
 
-    private static Instructor getInstructor(Major major){
-        InstructorList instructors = dc.getInstructorList();
 
-        if(instructors.getNumOfInstructorsMajor(major) == 0){
-            // Hire as many new instructors of required major as allowed :)
-            for(int i = 0; i < SchoolSettings.MAX_PROFESSORS_PER_COURSE.getSize(); i++){
-                instructors.addInstructor(new Instructor(generateRandomName(), major));
-            }
+    private static InstructorContainer generateInstructors(Major major){
+        InstructorContainer instructors = dc.getSchoolData().getInstructorList();
+
+        // Hire as many new instructors of required major as allowed :)
+        for(int i = 0; i < SchoolSettings.MAX_INSTRUCTORS_PER_COURSE.getSize(); i++){
+            Instructor hiredInstructor = new Instructor(generateRandomName(), major, LocalDate.of(rand.nextInt(1990,2025), rand.nextInt(1,13), rand.nextInt(1, 31)));
+            instructors.addInstructor(hiredInstructor.getId(), hiredInstructor);
         }
 
-        return instructors.getRandomInstructor(major);
+        return instructors;
     }
 
 
     /*
     At first, this method generateRandomNames always loaded in the txt files every single time into the ArrayLists.
     To fix this, placing the loadNames part of the method into the DataCenter and the ArrayLists there, the
-    lists only have to be populated once. Greatly reduced the time taken to run program.
+    lists only have to be populated once. Greatly improved time complexity.
+     */
 
+    // Uses the preloaded names in an ArrayList size slightly larger than real size for a random name
     private static Name generateRandomName() {
-        TreeSet<String> firstNames = dc.getFirstNames();
-        TreeSet<String> lastNames = dc.getLastNames();
+        ArrayList<String> firstNames = dc.getFIRST_NAMES();
+        ArrayList<String> lastNames = dc.getLAST_NAMES();
 
-        String firstName = firstNames.(rand.nextInt(firstNames.size()));
+        String firstName = firstNames.get(rand.nextInt(firstNames.size()));
         String lastName = lastNames.get(rand.nextInt(lastNames.size()));
 
         return new Name(firstName, lastName);
     }
 
-    private static HashSet<String> createUniqueCRNs(int numOfSections){
-        HashSet<String> checkedCRNs = new HashSet<>(numOfSections);
 
-        while(checkedCRNs.size() < numOfSections){
+    // Uses HashSet to make sure there are no duplicates with also a known size
+    private static LinkedHashSet<String> createUniqueCRNs(int numOfSections){
+        LinkedHashSet<String> uniqueCRNs = new LinkedHashSet<>(numOfSections);
+
+        while(uniqueCRNs.size() < numOfSections){
             String randomCRN = "" + rand.nextInt(SchoolSettings.LOWER_CRN.getSize(), SchoolSettings.MAX_CRN.getSize());
-            checkedCRNs.add(randomCRN);
-
+            uniqueCRNs.add(randomCRN);
         }
-        return checkedCRNs;
+
+        return uniqueCRNs;
     }
 
-    private static ArrayList<DayOfWeek> randomClassDays(){
-        ArrayList<DayOfWeek> classDays = new ArrayList<>();
-        DayOfWeek[] allDays = DayOfWeek.values();
 
-        // Select 2 or 3 random days for the class
-        int numDays = rand.nextInt(2,4);
-        while (classDays.size() < numDays) {
-            DayOfWeek randomDay = allDays[rand.nextInt(allDays.length)];
-            if (!classDays.contains(randomDay)) {
-                classDays.add(randomDay);
-            }
+    /*
+    Instead of trying to make a Set of random days and then having it be sorted,
+    we can populate it at first and then take random days out to minimize it down
+    to 2-4 days of class and using a LinkedHashSet to maintain order. Thus, removing
+    the strain of ever having to sort the days. Using another List to hold the DaysOfWeek
+    allows us to randomly remove Days, not have to resize, and leads to no duplication
+    removal.
+     */
+    private static LinkedHashSet<DaysOfWeek> randomClassDays(){
+        // Select 2 or 4 random days for the class
+        int numberOfDays = rand.nextInt(2,5);
+
+        LinkedHashSet<DaysOfWeek> classDays = new LinkedHashSet<>(7);
+        classDays.addAll(Arrays.asList(DaysOfWeek.values()));
+
+        ArrayList<DaysOfWeek> listOfDays = new ArrayList<>(classDays);
+
+        while (classDays.size() > numberOfDays) {
+            DaysOfWeek randomDayToRemove = listOfDays.remove(rand.nextInt(listOfDays.size()));
+            classDays.remove(randomDayToRemove);
         }
 
         return classDays;
     }
 
+
+    // Uses TimeSegments Enum to generate a random startTime and endTime
     private static TimeRange generateTimeRange(){
-        int startHour = rand.nextInt(7) + 13; // Start between 7 AM and 8 PM
-        int startMinute = rand.nextInt(60);  // Random minute between 0 and 59
+        int earliestStartHour = TimeSegments.EARLY_MORNING.getStartTime().getHour();
+        int latestStartHour = TimeSegments.EVENING.getStartTime().getHour();
+
+        int startHour = rand.nextInt(earliestStartHour, latestStartHour + 1);
+        int startMinute = rand.nextInt(4) * 15; // 15 Minute Intervals
 
         LocalTime startTime = LocalTime.of(startHour, startMinute);
         LocalTime endTime = startTime.plusHours(rand.nextInt(1, 4)); // Duration 1 to 3 hours
@@ -242,10 +226,8 @@ public class Utility {
         return new TimeRange(startTime, endTime);
     }
 
+
     private static TimeSegments getTimeSegment(LocalTime startTime){
         return TimeSegments.getSegmentForTime(startTime);
     }
-
-     */
-
 }

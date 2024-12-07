@@ -3,7 +3,6 @@ package collegeapp.perezrojocollegeappfinal.model;
 import java.io.Serializable;
 import java.util.TreeMap;
 
-@Deprecated
 public class StudentsEnrolled implements Serializable {
     private TreeMap<String, Student> students;
 

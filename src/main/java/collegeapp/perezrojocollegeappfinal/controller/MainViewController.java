@@ -32,7 +32,7 @@ public class MainViewController {
     public void switchToCollegeInstructorScene(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/instructor-page.fxml"));
         Parent root = fxmlLoader.load();
-        PreferencesController adminReviewController = fxmlLoader.getController();
+        InstructorPageController adminReviewController = fxmlLoader.getController();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         adminReviewController.setStage(stage);
         scene = new Scene(root);

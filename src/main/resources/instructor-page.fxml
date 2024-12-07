@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="540" prefWidth="960" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collegeapp.perezrojocollegeappfinal.controller.InPageController">
+<StackPane prefHeight="540" prefWidth="960" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collegeapp.perezrojocollegeappfinal.controller.InstructorPageController">
     <VBox spacing="15" style="-fx-padding: 20;">
-      <Button mnemonicParsing="false" text="Log Out" />
+      <Button mnemonicParsing="false" onAction="#handleBackToOverview" text="Log Out" />
         <TabPane prefHeight="471.0" prefWidth="920.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="All Sections">
