@@ -6,11 +6,48 @@ import collegeapp.perezrojocollegeappfinal.datacenter.DataCenter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.*;
+import java.util.function.Function;
+
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.TableColumn;
 
 public class Utility implements Serializable {
     private static final Random rand = new Random();
     private static DataCenter dc = DataCenter.getInstance();
+
+    /**
+     * Sets up a TableColumn with a cellValueFactory that extracts data using the provided extractor function.
+     *
+     * @param column    The TableColumn to configure
+     * @param extractor A function that extracts the property to display
+     * @param <T>       The type of objects in the TableView
+     * @param <R>       The type of the property to extract
+     */
+    public static <T, R> void setupTableColumn(TableColumn<T, R> column, Function<T, R> extractor) {
+        column.setCellValueFactory(cellData -> {
+            T rowObject = cellData.getValue(); // Get the row object
+            R value = extractor.apply(rowObject); // Extract the property
+            return new SimpleObjectProperty<>(value); // Wrap in an ObservableValue
+        });
+    }
+
+    public static <K, V, R> ArrayList<R> getAllOfFrom(Map<K, V> map, Function<V, R> extractor) {
+        ArrayList<R> result = new ArrayList<>();
+        for (V value : map.values()) {
+            result.add(extractor.apply(value));
+        }
+        return result;
+    }
+
+    public static <T, R> ArrayList<R> getAllOfFrom(Collection<T> items, Function<T, R> extractor) {
+        ArrayList<R> extractedProperties = new ArrayList<>();
+        for (T item : items) {
+            extractedProperties.add(extractor.apply(item));
+        }
+        return extractedProperties;
+    }
 
     public static Course createCourse(Major major, int numOfSections){
         String courseNumber = "" + rand.nextInt(100, 300);
@@ -21,7 +58,7 @@ public class Utility implements Serializable {
                 courseNumber,
                 "This is " + courseNumber,
                 randomCredit,
-                createSections(major, numOfSections, courseNumber));
+                createSections(major, numOfSections, courseNumber, randomCredit));
 
         dc.getSchoolData().addCourse(newCourse);
 
@@ -29,7 +66,7 @@ public class Utility implements Serializable {
     }
 
 
-    public static SectionsContainer createSections(Major major, int numOfSections, String courseNumber){
+    public static SectionsContainer createSections(Major major, int numOfSections, String courseNumber, int credit){
         SectionsContainer newSections = new SectionsContainer();
         HashSet<String> uniqueCRNS = createUniqueCRNs(numOfSections);
 
@@ -50,7 +87,8 @@ public class Utility implements Serializable {
                     courseNumber,
                     generateClassroom(major),
                     isOnline,
-                    studentIds);
+                    studentIds,
+                    credit);
 
             newSections.addSection(newSectionToAdd);
             dc.getSchoolData().addSection(newSectionToAdd);
@@ -58,8 +96,18 @@ public class Utility implements Serializable {
 
         return newSections;
     }
-
     /*
+
+    public static InstructorContainer generateInstructors(Major major, int numOfInstructors){
+        InstructorContainer newInstructors = new InstructorContainer(numOfInstructors);
+
+        for (int i = 0; i < numOfInstructors; i++) {
+            Name name = generateRandomName();
+            LocalDate
+        }
+    }
+
+
     private static void populateSection(Major major){
 
     }
@@ -142,16 +190,21 @@ public class Utility implements Serializable {
     }
 
 
-    private static InstructorContainer generateInstructors(Major major){
-        InstructorContainer instructors = dc.getSchoolData().getInstructorList();
+    public static void generateInstructors(Major major){
+        InstructorContainer instructors = dc.getSchoolData().getInstructorContainer();
 
         // Hire as many new instructors of required major as allowed :)
         for(int i = 0; i < SchoolSettings.MAX_INSTRUCTORS_PER_COURSE.getSize(); i++){
-            Instructor hiredInstructor = new Instructor(generateRandomName(), major, LocalDate.of(rand.nextInt(1990,2025), rand.nextInt(1,13), rand.nextInt(1, 31)));
+            int year = rand.nextInt(1990, 2025); // Random year between 1990 and 2024
+            int month = rand.nextInt(1, 13);     // Random month between 1 and 12
+
+            // Get the maximum days in the generated month and year
+            int maxDay = YearMonth.of(year, month).lengthOfMonth();
+            int day = rand.nextInt(1, maxDay + 1); // Random day within valid range
+
+            Instructor hiredInstructor = new Instructor(generateRandomName(), major, LocalDate.of(year, month, day));
             instructors.addInstructor(hiredInstructor.getId(), hiredInstructor);
         }
-
-        return instructors;
     }
 
 

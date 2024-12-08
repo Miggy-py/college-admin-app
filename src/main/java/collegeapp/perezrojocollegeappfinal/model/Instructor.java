@@ -33,12 +33,24 @@ public class Instructor implements Serializable {
         return creditsTeaching;
     }
 
+    public String getCreditsAsString(){
+        return String.valueOf(creditsTeaching);
+    }
+
     public void addToCreditsTeaching(int credits) {
         this.creditsTeaching += credits;
     }
 
+    public void removeCredits(int credits) {
+        this.creditsTeaching -= credits;
+    }
+
     public Major getMajorTaught() {
         return majorTaught;
+    }
+
+    public String getMajorTaughtAsString(){
+        return majorTaught.getCourseName();
     }
 
     public void setMajorTaught(Major majorTaught) {
@@ -47,6 +59,10 @@ public class Instructor implements Serializable {
 
     public Name getName() {
         return name;
+    }
+
+    public String getNameAsString(){
+        return name.getFirstName() + " " + name.getLastName();
     }
 
     public void setName(Name name) {
@@ -61,12 +77,20 @@ public class Instructor implements Serializable {
         return hireDate;
     }
 
+    public String getHireDateAsString(){
+        return hireDate.toString();
+    }
+
     private String generateID() {
         return "" + DataCenter.getInstance().getInstructorIDBase();
     }
 
     public Set<String> getPreferredCRNs() {
         return preferredCRNs;
+    }
+
+    public String getPreferredCRNsAsString(){
+        return preferredCRNs.toString();
     }
 
     public void setPreferredCRNs(HashSet<String> preferredCRNs) {
@@ -77,12 +101,20 @@ public class Instructor implements Serializable {
         return preferredDays;
     }
 
+    public String getPreferredDaysAsString(){
+        return preferredDays.toString();
+    }
+
     public void setPreferredDays(EnumSet<DaysOfWeek> preferredDays) {
         this.preferredDays = preferredDays;
     }
 
     public EnumSet<TimeSegments> getPreferredTimeSegments() {
         return preferredTimeSegments;
+    }
+
+    public String getPreferredTimeSegmentsAsString(){
+        return preferredTimeSegments.toString();
     }
 
     public void setPreferredTimeSegments(EnumSet<TimeSegments> preferredTimeSegments) {
@@ -99,6 +131,12 @@ public class Instructor implements Serializable {
 
     @Override
     public String toString() {
+        return id + " | " + name.getFirstName() + " " + name.getLastName();
+    }
+
+    /*
+    @Override
+    public String toString() {
         return "Instructor{" +
                 "id='" + id + '\'' +
                 ", hire date=" + hireDate +
@@ -106,5 +144,7 @@ public class Instructor implements Serializable {
                 ", majorTaught=" + majorTaught +
                 '}';
     }
+
+     */
 
 }

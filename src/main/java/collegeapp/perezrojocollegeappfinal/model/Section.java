@@ -18,11 +18,12 @@ public class Section implements Comparable<Section>, Serializable {
     private Classroom classroom;
     private boolean isOnline;
     private HashSet<String> studentIDs;
+    private int credits;
 
     public Section(TimeRange timeRange, TimeSegments timeSegment, LinkedHashSet<DaysOfWeek> classDays, String crn,
                    Instructor instructor, TextbookContainer bookList, Major major,
                    String courseNumber, Classroom classroom, boolean isOnline,
-                   HashSet<String> studentIDs) {
+                   HashSet<String> studentIDs, int credits) {
         this.timeRange = timeRange;
         this.timeSegment = timeSegment;
         this.classDays = classDays;
@@ -34,6 +35,11 @@ public class Section implements Comparable<Section>, Serializable {
         this.classroom = classroom;
         this.isOnline = isOnline;
         this.studentIDs = studentIDs;
+        this.credits = credits;
+    }
+
+    public int getCredits(){
+        return credits;
     }
 
     public TimeSegments getTimeSegment() {
@@ -124,6 +130,11 @@ public class Section implements Comparable<Section>, Serializable {
         this.studentIDs.add(studentId);
     }
 
+    public String toString(){
+        return crn + " | " + major.getCourseName() + " " + courseNumber;
+    }
+
+    /*
     @Override
     public String toString() {
         return "Section{" +
@@ -141,8 +152,30 @@ public class Section implements Comparable<Section>, Serializable {
                 '}';
     }
 
+     */
+
     @Override
     public int compareTo(Section o) {
         return crn.compareTo(o.getCrn());
+    }
+
+    public String getCourseName() {
+        return major.getCourseName() + " ";
+    }
+
+    public String getNumber() {
+        return courseNumber;
+    }
+
+    public String getStartTime() {
+        return timeRange.getStartTime().toString();
+    }
+
+    public String getEndTime() {
+        return timeRange.getEndTime().toString();
+    }
+
+    public String getDays() {
+        return classDays.toString();
     }
 }

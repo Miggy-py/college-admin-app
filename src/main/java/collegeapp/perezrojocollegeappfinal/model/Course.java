@@ -7,10 +7,10 @@ public class Course implements Comparable<Course>, Serializable {
     private String courseTitle;
     private String courseNumber;
     private String description;
-    private double credits;
+    private int credits;
     private SectionsContainer sectionList;
 
-    public Course(String courseTitle, String courseNumber, String description, double credits, SectionsContainer sectionList) {
+    public Course(String courseTitle, String courseNumber, String description, int credits, SectionsContainer sectionList) {
         this.courseTitle = courseTitle;
         this.courseNumber = courseNumber;
         this.description = description;
@@ -42,11 +42,11 @@ public class Course implements Comparable<Course>, Serializable {
         this.description = description;
     }
 
-    public double getCredits() {
+    public int getCredits() {
         return credits;
     }
 
-    public void setCredits(double credits) {
+    public void setCredits(int credits) {
         this.credits = credits;
     }
 

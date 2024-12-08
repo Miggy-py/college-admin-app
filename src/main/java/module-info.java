@@ -3,6 +3,7 @@ module collegeapp.perezrojocollegeappfinal {
     requires javafx.fxml;
     requires javafx.media;
     requires jdk.compiler;
+    requires java.sql;
 
     opens collegeapp.perezrojocollegeappfinal.controller to javafx.fxml;
     exports collegeapp.perezrojocollegeappfinal.controller;

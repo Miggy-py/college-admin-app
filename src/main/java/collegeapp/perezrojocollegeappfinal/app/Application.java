@@ -1,5 +1,6 @@
 package collegeapp.perezrojocollegeappfinal.app;
 
+import collegeapp.perezrojocollegeappfinal.datacenter.DataCenter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -19,9 +20,14 @@ public class Application extends javafx.application.Application {
         stage.setTitle("CourseFlow");
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnCloseRequest(event -> {
+            DataCenter.getInstance().save();
+        });
     }
 
     public static void main(String[] args) {
         launch();
+        System.out.println(DataCenter.getInstance().getSchoolData().getSectionsContainer().toString());
     }
 }
