@@ -29,8 +29,7 @@ public enum TimeSegments implements Serializable {
     public boolean isWithin(LocalTime time) {
         return !time.isBefore(startTime) && !time.isAfter(endTime);
     }
-
-    // Helps us find which TimeSegment is correct for the time of a class
+    // Helps find which TimeSegment is correct for the time of a class
     public static TimeSegments getSegmentForTime(LocalTime time) {
         for (TimeSegments segment : TimeSegments.values()) {
             if (segment.isWithin(time)) {

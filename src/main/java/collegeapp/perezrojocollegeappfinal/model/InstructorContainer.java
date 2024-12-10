@@ -1,23 +1,20 @@
 package collegeapp.perezrojocollegeappfinal.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class InstructorContainer implements Serializable{
-    private HashMap<String, Instructor> instructors;
+    private LinkedHashMap<String, Instructor> instructors;
 
     public InstructorContainer(int maxSize) {
-        instructors = new HashMap<>(maxSize);
+        instructors = new LinkedHashMap<>(maxSize);
     }
 
     public void addInstructor(String instructorID, Instructor instructor) {
         instructors.put(instructorID, instructor);
     }
 
-    public HashMap<String, Instructor> getInstructors() {
+    public LinkedHashMap<String, Instructor> getInstructors() {
         return instructors;
     }
 

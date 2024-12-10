@@ -31,8 +31,7 @@
                   <Font name="Avenir Heavy" size="48.0" />
                </font>
             </Label>
-            <TextField maxWidth="300" promptText="User" />
-            <TextField maxWidth="300" promptText="Password" />
+            <TextField fx:id="usernameTextFIeld" maxWidth="300" promptText="User" />
             <Button alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#switchToCollegeInstructorScene" prefHeight="26.0" prefWidth="160.0" text="Login" />
          </children>
       </VBox>

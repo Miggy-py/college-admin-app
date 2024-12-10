@@ -19,14 +19,4 @@ public class TextbookContainer implements Serializable {
     public void addBook(Textbook book) {
         backpack.add(book);
     }
-
-    /*
-    @Override
-    public String toString() {
-        return "TextbookContainer{" +
-                "Course Textbooks=" + Arrays.toString(backpack.search(Textbook.class, textbook -> true)) +
-                '}';
-    }
-
-     */
 }

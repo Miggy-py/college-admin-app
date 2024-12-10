@@ -1,9 +1,10 @@
 package collegeapp.perezrojocollegeappfinal.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 
 public class Section implements Comparable<Section>, Serializable {
@@ -17,13 +18,13 @@ public class Section implements Comparable<Section>, Serializable {
     private String courseNumber;
     private Classroom classroom;
     private boolean isOnline;
-    private HashSet<String> studentIDs;
+    private TreeSet<String> studentIDs;
     private int credits;
 
     public Section(TimeRange timeRange, TimeSegments timeSegment, LinkedHashSet<DaysOfWeek> classDays, String crn,
                    Instructor instructor, TextbookContainer bookList, Major major,
                    String courseNumber, Classroom classroom, boolean isOnline,
-                   HashSet<String> studentIDs, int credits) {
+                   TreeSet<String> studentIDs, int credits) {
         this.timeRange = timeRange;
         this.timeSegment = timeSegment;
         this.classDays = classDays;
@@ -122,7 +123,7 @@ public class Section implements Comparable<Section>, Serializable {
         isOnline = online;
     }
 
-    public HashSet<String> getStudentIDs() {
+    public TreeSet<String> getStudentIDs() {
         return studentIDs;
     }
 
@@ -133,26 +134,6 @@ public class Section implements Comparable<Section>, Serializable {
     public String toString(){
         return crn + " | " + major.getCourseName() + " " + courseNumber;
     }
-
-    /*
-    @Override
-    public String toString() {
-        return "Section{" +
-                "timeRange=" + timeRange +
-                ", timeSegment=" + timeSegment +
-                ", classDays=" + classDays +
-                ", crn='" + crn + '\'' +
-                ", instructor=" + instructor +
-                ", bookList=" + bookList +
-                ", major=" + major +
-                ", courseNumber='" + courseNumber + '\'' +
-                ", classroom=" + classroom +
-                ", isOnline=" + isOnline +
-                ", studentIDs=" + studentIDs +
-                '}';
-    }
-
-     */
 
     @Override
     public int compareTo(Section o) {
@@ -167,12 +148,24 @@ public class Section implements Comparable<Section>, Serializable {
         return courseNumber;
     }
 
-    public String getStartTime() {
+    public LocalTime getStartTime(){
+        return timeRange.getStartTime();
+    }
+
+    public LocalTime getEndTime(){
+        return timeRange.getEndTime();
+    }
+
+    public String getStartTimeAsString() {
         return timeRange.getStartTime().toString();
     }
 
-    public String getEndTime() {
+    public String getEndTimeAsString() {
         return timeRange.getEndTime().toString();
+    }
+
+    public LinkedHashSet<DaysOfWeek> getDaysSet() {
+        return classDays;
     }
 
     public String getDays() {

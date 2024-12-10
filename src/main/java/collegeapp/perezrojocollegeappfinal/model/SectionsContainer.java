@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class SectionsContainer implements Serializable {
+    // TreeMap for unknown sizes and lookup by the CRN
     private TreeMap<String, Section> sections;
 
     public SectionsContainer() {
@@ -22,39 +23,6 @@ public class SectionsContainer implements Serializable {
     public ArrayList<String> getAllCRNs() {
         return Utility.getAllOfFrom(sections, Section::getCrn);
     }
-
-    /*
-    public SectionsContainer() {
-        sections = new GenericBag<>(Section.class, SchoolSettings.MAX_SECTION_SIZE.getSize());
-        numOfSections = 0;
-    }
-
-    public Section[] getSectionsOfMajor(Major major) {
-        return sections.search(Section.class, section -> section.getMajor().equals(major));
-    }
-
-    public Section[] getAllSections() {
-        return sections.search(Section.class, section -> true);
-    }
-
-    public void addSection(Section section) {
-        sections.add(section);
-        numOfSections++;
-    }
-
-    public Section[] removeSection(String crn) {
-        return sections.removeCopy(Section.class, section -> section.getCrn().equals(crn));
-    }
-
-    public void displaySections() {
-        sections.display();
-    }
-
-    public int getNumOfSections() {
-        return numOfSections;
-    }
-
-     */
 
     @Override
     public String toString() {

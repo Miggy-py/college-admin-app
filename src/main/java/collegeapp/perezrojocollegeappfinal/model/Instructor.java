@@ -37,6 +37,10 @@ public class Instructor implements Serializable {
         return String.valueOf(creditsTeaching);
     }
 
+    public void setCredits(int value){
+        this.creditsTeaching = value;
+    }
+
     public void addToCreditsTeaching(int credits) {
         this.creditsTeaching += credits;
     }
@@ -122,11 +126,8 @@ public class Instructor implements Serializable {
     }
 
     /*
-
     At first the IDs weren't unique across majors, problem fix was to make the bases be stored in the DataCenter
     Singleton instead of in the class
-
-
      */
 
     @Override

@@ -1,8 +1,9 @@
 package collegeapp.perezrojocollegeappfinal.controller;
 
+import collegeapp.perezrojocollegeappfinal.config.SchoolConfiguration;
+import collegeapp.perezrojocollegeappfinal.config.SchoolSettings;
 import collegeapp.perezrojocollegeappfinal.datacenter.DataCenter;
 import collegeapp.perezrojocollegeappfinal.model.*;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,14 +13,22 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.*;
 
 public class InstructorPageController {
+    public StackPane backgroundStackPane;
+    public ImageView schoolLogoImage;
+    public Label schoolNameLabel;
+    @FXML
+    private CheckBox mondayCheckBox, tuesdayCheckBox, wednesdayCheckBox, thursdayCheckBox,
+            fridayCheckBox, saturdayCheckBox, sundayCheckBox;
+    public CheckBox earlyMorningCheckBox, morningCheckBox, afternoonCheckBox, lateAfternoonCheckBox, eveningCheckBox;
     public ComboBox crnComboBoxManual;
     public Label crnLabel;
     public Label courseAndNumberLabel;
@@ -29,12 +38,6 @@ public class InstructorPageController {
     public ComboBox instructorComboBoxManual;
     public Button updateSectionManuallyButton;
     public TableColumn creditsColumn;
-    @FXML
-    private CheckBox mondayCheckBox, tuesdayCheckBox, wednesdayCheckBox, thursdayCheckBox,
-            fridayCheckBox, saturdayCheckBox, sundayCheckBox;
-
-    public CheckBox earlyMorningCheckBox, morningCheckBox, afternoonCheckBox, lateAfternoonCheckBox, eveningCheckBox;
-
     public ComboBox instructorChoicePreferencesComboBox;
     public TableView<Section> sectionTableView;
     public TableColumn<Section, String> crnColumn;
@@ -57,8 +60,6 @@ public class InstructorPageController {
     public Label instructorNamePreferencesLabel;
     public Button savePreferencesButton;
     @FXML
-    private Label instructorNameLabel;
-    @FXML
     private TextField crnTextField;
     @FXML
     private HashMap<DaysOfWeek, CheckBox> dayCheckBoxes;
@@ -66,9 +67,10 @@ public class InstructorPageController {
     private HashMap<TimeSegments, CheckBox> timeSegmentsCheckBoxes;
 
     private DataCenter dataCenter = DataCenter.getInstance();
-    private SchoolData schoolData;
+    private SchoolData schoolData = getLatestSchoolData();
     private Stage stage;
     private Scene scene;
+
 
     @FXML
     private void handleBackToOverview(ActionEvent event) throws IOException {
@@ -83,16 +85,18 @@ public class InstructorPageController {
         stage.show();
     }
 
+
     @FXML
     public void initialize() {
-        // timeSlotComboBox.setItems(FXCollections.observableArrayList(TimeSegments.values()));
-        //Utility.createCourse(Major.COMPUTER_SCIENCE, 5);
-        //Utility.generateInstructors(Major.COMPUTER_SCIENCE);
+        makeSections();
+        makeInstructors();
+        setSchoolConfigurations();
         schoolData = getLatestSchoolData();
         populateTimeSegmentCheckBoxes();
         populateDayCheckBoxes();
         setData();
     }
+
 
     public void setData(){
         schoolData = getLatestSchoolData();
@@ -112,6 +116,7 @@ public class InstructorPageController {
         sectionTableView.refresh();
     }
 
+
     public void populateSectionsTableView(){
         ObservableList<Section> sectionsData = FXCollections.observableArrayList(
                 schoolData.getSectionsContainer().getSections().values()
@@ -123,8 +128,8 @@ public class InstructorPageController {
         Utility.setupTableColumn(crnColumn, Section::getCrn);
         Utility.setupTableColumn(courseColumn, Section::getCourseName);
         Utility.setupTableColumn(numberColumn, Section::getNumber);
-        Utility.setupTableColumn(startTimeColumn, Section::getStartTime);
-        Utility.setupTableColumn(endTimeColumn, Section::getEndTime);
+        Utility.setupTableColumn(startTimeColumn, Section::getStartTimeAsString);
+        Utility.setupTableColumn(endTimeColumn, Section::getEndTimeAsString);
         Utility.setupTableColumn(daysColumn, Section::getDays);
         Utility.setupTableColumn(isOnlineColumn, section -> section.isOnline() ? "Yes" : "No");
         Utility.setupTableColumn(creditsColumn, Section :: getCredits);
@@ -135,6 +140,7 @@ public class InstructorPageController {
                 }
         );
     }
+
 
     public void populateInstructorsTableView(){
         ObservableList<Instructor> instructorsData = FXCollections.observableArrayList(
@@ -163,35 +169,44 @@ public class InstructorPageController {
         this.stage = stage;
     }
 
+
     public void handleSavePreferences(ActionEvent actionEvent) {
         Instructor selectedInstructor = (Instructor) instructorChoicePreferencesComboBox.getSelectionModel().getSelectedItem();
+
         if (selectedInstructor != null) {
+
             String selectedName = selectedInstructor.getNameAsString();
             String selectedId = selectedInstructor.getId();
 
-            // Use the selected Instructor object for saving preferences
             System.out.println("Saving preferences for: " + selectedName + " (ID: " + selectedId + ")");
-            // Add your logic to save preferences
+
             selectedInstructor.setPreferredCRNs(getCRNsAsSet(crnTextField.getText()));
             selectedInstructor.setPreferredDays(getSelectedDays());
             selectedInstructor.setPreferredTimeSegments(getSelectedTimeSegments());
+
             setData();
+
         } else {
+
             System.out.println("No instructor selected.");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No Instructor Selected");
             alert.setContentText("Please select an instructor before saving preferences.");
             alert.showAndWait();
+
         }
     }
+
 
     private EnumSet<TimeSegments> getSelectedTimeSegments() {
         return getSelectedEnum(TimeSegments.class, timeSegmentsCheckBoxes);
     }
 
+
     private EnumSet<DaysOfWeek> getSelectedDays() {
         return getSelectedEnum(DaysOfWeek.class, dayCheckBoxes);
     }
+
 
     public HashSet<String> getCRNsAsSet(String crnString){
         String[] crnArray = crnString.split(",");
@@ -205,6 +220,7 @@ public class InstructorPageController {
         return crnSet;
     }
 
+
     private <E extends Enum<E>> EnumSet<E> getSelectedEnum(Class<E> enumType, Map<E, CheckBox> checkBoxMap) {
         EnumSet<E> selectedEnums = EnumSet.noneOf(enumType); // Start with an empty EnumSet
         for (Map.Entry<E, CheckBox> entry : checkBoxMap.entrySet()) {
@@ -216,27 +232,6 @@ public class InstructorPageController {
         return selectedEnums;
     }
 
-    public void populateTimeSegmentCheckBoxes(){
-        timeSegmentsCheckBoxes = new HashMap<>();
-
-        timeSegmentsCheckBoxes.put(TimeSegments.EARLY_MORNING, earlyMorningCheckBox);
-        timeSegmentsCheckBoxes.put(TimeSegments.MORNING, morningCheckBox);
-        timeSegmentsCheckBoxes.put(TimeSegments.AFTERNOON, afternoonCheckBox);
-        timeSegmentsCheckBoxes.put(TimeSegments.LATE_AFTERNOON, lateAfternoonCheckBox);
-        timeSegmentsCheckBoxes.put(TimeSegments.EVENING, eveningCheckBox);
-    }
-
-    public void populateDayCheckBoxes(){
-        dayCheckBoxes = new HashMap<>(7);
-
-        dayCheckBoxes.put(DaysOfWeek.MON, mondayCheckBox);
-        dayCheckBoxes.put(DaysOfWeek.TUE, tuesdayCheckBox);
-        dayCheckBoxes.put(DaysOfWeek.WED, wednesdayCheckBox);
-        dayCheckBoxes.put(DaysOfWeek.THU, thursdayCheckBox);
-        dayCheckBoxes.put(DaysOfWeek.FRI, fridayCheckBox);
-        dayCheckBoxes.put(DaysOfWeek.SAT, saturdayCheckBox);
-        dayCheckBoxes.put(DaysOfWeek.SUN, sundayCheckBox);
-    }
 
     @FXML
     private void handleSectionChosen() {
@@ -246,7 +241,7 @@ public class InstructorPageController {
             // Update labels with the selected section's details
             crnLabel.setText(selectedSection.getCrn());
             courseAndNumberLabel.setText(selectedSection.getCourseName() + " " + selectedSection.getNumber());
-            startAndEndTimeLabel.setText(selectedSection.getStartTime() + " - " + selectedSection.getEndTime());
+            startAndEndTimeLabel.setText(selectedSection.getStartTimeAsString() + " - " + selectedSection.getEndTimeAsString());
             daysOfWeekLabel.setText(selectedSection.getDays());
             currentInstructorLabel.setText(
                     selectedSection.getInstructor() != null
@@ -255,6 +250,7 @@ public class InstructorPageController {
             );
         }
     }
+
 
     @FXML
     private void handleManualChanges() {
@@ -284,4 +280,185 @@ public class InstructorPageController {
             alert.showAndWait();
         }
     }
+
+
+    public void handleSectionsMatching(ActionEvent actionEvent) {
+        matchInstructorsWithSections();
+    }
+
+
+    public void matchInstructorsWithSections() {
+        schoolData = getLatestSchoolData();
+        ArrayList<Instructor> instructorsToSort = new ArrayList<>(schoolData.getInstructorContainer().getInstructors().values());
+        TreeMap<String, Section> sections = new TreeMap<>(schoolData.getSectionsContainer().getSections());
+
+        instructorsToSort.sort(Comparator.comparing(Instructor::getHireDate));
+
+        Set<String> assignedCRNs = new HashSet<>();
+
+        for (Instructor instructor : instructorsToSort) {
+            instructor.setCredits(0);
+            System.out.println("Matching for Instructor: " + instructor.getName());
+            List<Section> assignedSections = new ArrayList<>();
+            int totalCredits = 0;
+
+            // Step 1: Assign preferred CRNs
+            for (String preferredCRN : instructor.getPreferredCRNs()) {
+                if (sections.containsKey(preferredCRN) && !assignedCRNs.contains(preferredCRN)) {
+                    Section preferredSection = sections.get(preferredCRN);
+
+                    if (totalCredits + preferredSection.getCredits() <= SchoolSettings.INSTRUCTOR_MAX_CREDITS.getSize() &&
+                            !hasTimeConflict(assignedSections, preferredSection)) {
+
+                        System.out.println("  Assigning preferred section: " + preferredCRN);
+                        preferredSection.setInstructor(instructor);
+                        assignedSections.add(preferredSection);
+                        assignedCRNs.add(preferredCRN);
+                        totalCredits += preferredSection.getCredits();
+                    }
+                }
+            }
+
+            // Step 2: Assign matching sections
+            for (Section section : sections.values()) {
+                if (!assignedCRNs.contains(section.getCrn()) &&
+                        totalCredits + section.getCredits() <= SchoolSettings.INSTRUCTOR_MAX_CREDITS.getSize() &&
+                        instructor.getPreferredTimeSegments().contains(section.getTimeSegment()) &&
+                        instructor.getPreferredDays().containsAll(section.getDaysSet()) &&
+                        !hasTimeConflict(assignedSections, section)) {
+
+                    System.out.println("  Assigning matching section: " + section.getCrn());
+                    section.setInstructor(instructor);
+                    assignedSections.add(section);
+                    assignedCRNs.add(section.getCrn());
+                    totalCredits += section.getCredits();
+                }
+            }
+
+            // Step 3: Assign leftover sections (ignore preferences)
+            for (Section section : sections.values()) {
+                if (!assignedCRNs.contains(section.getCrn()) &&
+                        totalCredits + section.getCredits() <= SchoolSettings.INSTRUCTOR_MAX_CREDITS.getSize() &&
+                        !hasTimeConflict(assignedSections, section)) {
+
+                    System.out.println("  Assigning leftover section: " + section.getCrn());
+                    section.setInstructor(instructor);
+                    assignedSections.add(section);
+                    assignedCRNs.add(section.getCrn());
+                    totalCredits += section.getCredits();
+                }
+            }
+
+            instructor.addToCreditsTeaching(totalCredits);
+            System.out.println("  Total credits assigned: " + totalCredits);
+        }
+
+        // LOGGING TO SEE WHAT SECTIONS WERE NOT ASSIGNED AND IF IT WAS BECAUSE OF TIME CONFLICT
+        for (Section section : sections.values()) {
+            if (!assignedCRNs.contains(section.getCrn())) {
+                System.out.println("Unassigned Section: " + section.getCrn() +
+                        ", Days: " + section.getDaysSet() +
+                        ", Time: " + section.getStartTime() + " - " + section.getEndTime());
+
+                // Check if time conflict is the reason
+                for (Instructor instructor : instructorsToSort) {
+                    List<Section> assignedSections = getSectionsForInstructor(instructor, sections.values());
+                    if (hasTimeConflict(assignedSections, section)) {
+                        System.out.println("  Conflict found for Section: " + section.getCrn() +
+                                " with Instructor: " + instructor.getName());
+                    }
+                }
+            }
+        }
+
+        setData(); // Refresh
+    }
+
+
+    private List<Section> getSectionsForInstructor(Instructor instructor, Collection<Section> allSections) {
+        List<Section> assignedSections = new ArrayList<>();
+        for (Section section : allSections) {
+            if (section.getInstructor() != null && section.getInstructor().equals(instructor)) {
+                assignedSections.add(section);
+            }
+        }
+        return assignedSections;
+    }
+
+
+    private boolean hasTimeConflict(List<Section> assignedSections, Section newSection) {
+        for (Section section : assignedSections) {
+            // Check for day overlap
+            if (!Collections.disjoint(section.getDaysSet(), newSection.getDaysSet())) {
+                // Check for time overlap
+                if (!newSection.getStartTime().isAfter(section.getEndTime()) &&
+                        !newSection.getEndTime().isBefore(section.getStartTime())) {
+                    // Conflict found
+                    return true;
+                }
+            }
+        }
+        // No time conflict
+        return false;
+    }
+
+
+    public void makeSections(){
+        if(schoolData.getCourseContainer().getAmountOfCourse() == 0) {
+            Utility.createCourse(Major.COMPUTER_SCIENCE, 5);
+            Utility.createCourse(Major.COMPUTER_SCIENCE, 5);
+            Utility.createCourse(Major.COMPUTER_SCIENCE, 5);
+            Utility.createCourse(Major.COMPUTER_SCIENCE, 5);
+            Utility.createCourse(Major.COMPUTER_SCIENCE, 5);
+        }
+    }
+
+
+    public void makeInstructors(){
+        if(schoolData.getInstructorContainer().getNumOfInstructorsMajor(Major.COMPUTER_SCIENCE) == 0) {
+            Utility.generateInstructors(Major.COMPUTER_SCIENCE);
+        }
+    }
+
+
+    public void setSchoolConfigurations(){
+        schoolNameLabel.setText(SchoolConfiguration.NPCC.getNameOfSchool());
+
+        backgroundStackPane.setStyle("-fx-background-color: linear-gradient(" +
+                SchoolConfiguration.NPCC.getPrimaryColor()
+                + ", " + SchoolConfiguration.NPCC.getSecondaryColor() + ");");
+
+        String logoPath = SchoolConfiguration.NPCC.getLogoPath();
+
+        if (logoPath != null && !logoPath.isEmpty()) {
+            schoolLogoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(logoPath))));
+        } else {
+            System.err.println("Logo path is not set or invalid!");
+        }
+    }
+
+
+    public void populateTimeSegmentCheckBoxes(){
+        timeSegmentsCheckBoxes = new HashMap<>();
+
+        timeSegmentsCheckBoxes.put(TimeSegments.EARLY_MORNING, earlyMorningCheckBox);
+        timeSegmentsCheckBoxes.put(TimeSegments.MORNING, morningCheckBox);
+        timeSegmentsCheckBoxes.put(TimeSegments.AFTERNOON, afternoonCheckBox);
+        timeSegmentsCheckBoxes.put(TimeSegments.LATE_AFTERNOON, lateAfternoonCheckBox);
+        timeSegmentsCheckBoxes.put(TimeSegments.EVENING, eveningCheckBox);
+    }
+
+
+    public void populateDayCheckBoxes(){
+        dayCheckBoxes = new HashMap<>(7);
+
+        dayCheckBoxes.put(DaysOfWeek.MON, mondayCheckBox);
+        dayCheckBoxes.put(DaysOfWeek.TUE, tuesdayCheckBox);
+        dayCheckBoxes.put(DaysOfWeek.WED, wednesdayCheckBox);
+        dayCheckBoxes.put(DaysOfWeek.THU, thursdayCheckBox);
+        dayCheckBoxes.put(DaysOfWeek.FRI, fridayCheckBox);
+        dayCheckBoxes.put(DaysOfWeek.SAT, saturdayCheckBox);
+        dayCheckBoxes.put(DaysOfWeek.SUN, sundayCheckBox);
+    }
+
 }

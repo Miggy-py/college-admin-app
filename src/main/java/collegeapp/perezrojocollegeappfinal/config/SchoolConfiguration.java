@@ -1,7 +1,7 @@
 package collegeapp.perezrojocollegeappfinal.config;
 
 public enum SchoolConfiguration {
-    NPCC("North Pole Community College", "#FF0000 ", "#00FF00", "src/main/resources/images/NPCC_logo.jpg", "npcc");
+    NPCC("North Pole Community College", "#FF0000 ", "#00FF00", "/images/NPCC_logo.jpg", "npcc");
 
     private final String nameOfSchool;
     private final String primaryColor;

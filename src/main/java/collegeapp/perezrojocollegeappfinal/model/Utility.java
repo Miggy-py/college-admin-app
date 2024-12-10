@@ -19,11 +19,6 @@ public class Utility implements Serializable {
 
     /**
      * Sets up a TableColumn with a cellValueFactory that extracts data using the provided extractor function.
-     *
-     * @param column    The TableColumn to configure
-     * @param extractor A function that extracts the property to display
-     * @param <T>       The type of objects in the TableView
-     * @param <R>       The type of the property to extract
      */
     public static <T, R> void setupTableColumn(TableColumn<T, R> column, Function<T, R> extractor) {
         column.setCellValueFactory(cellData -> {
@@ -39,14 +34,6 @@ public class Utility implements Serializable {
             result.add(extractor.apply(value));
         }
         return result;
-    }
-
-    public static <T, R> ArrayList<R> getAllOfFrom(Collection<T> items, Function<T, R> extractor) {
-        ArrayList<R> extractedProperties = new ArrayList<>();
-        for (T item : items) {
-            extractedProperties.add(extractor.apply(item));
-        }
-        return extractedProperties;
     }
 
     public static Course createCourse(Major major, int numOfSections){
@@ -72,7 +59,7 @@ public class Utility implements Serializable {
 
         for (int i = 0; i < numOfSections; i++) {
             boolean isOnline = rand.nextBoolean();
-            HashSet<String> studentIds = new HashSet<>(); // fix the size
+            TreeSet<String> studentIds = new TreeSet<>();
             TimeRange time = generateTimeRange();
             String[] crnsToAdd = uniqueCRNS.toArray(new String[0]);
 
@@ -96,73 +83,6 @@ public class Utility implements Serializable {
 
         return newSections;
     }
-    /*
-
-    public static InstructorContainer generateInstructors(Major major, int numOfInstructors){
-        InstructorContainer newInstructors = new InstructorContainer(numOfInstructors);
-
-        for (int i = 0; i < numOfInstructors; i++) {
-            Name name = generateRandomName();
-            LocalDate
-        }
-    }
-
-
-    private static void populateSection(Major major){
-
-    }
-
-
-    // SHORTEN THIS
-    private static Student makeDummyStudent(Major major){
-        Name name = generateRandomName();
-        double gpa = rand.nextDouble(1.5, 4.1);
-        int creditsCompleted = rand.nextInt(64);
-
-        SectionsContainer sections = dc.getSectionsContainer();
-
-        Section[] sectionsOfStudentMajor = sections.getSectionsOfMajor(major);
-
-
-        if(sectionsOfStudentMajor.length == 0){
-            return Optional.empty();
-        }
-
-        // Makes sure that the while loop won't go on forever by making sure the student can enroll into
-        // enough sections
-        int maxSections = Math.min(SchoolSettings.MAX_SECTIONS_PER_STUDENT.getSize(), sectionsOfStudentMajor.length);
-
-        SectionsContainer enrolledInSections = new SectionsContainer();
-
-        while (enrolledInSections.getNumOfSections() < maxSections) {
-            Section section = sectionsOfStudentMajor[rand.nextInt(sectionsOfStudentMajor.length)];
-            if (!studentAlreadyInSection(section, enrolledInSections)) {
-                enrolledInSections.addSection(section);
-            }
-        }
-
-        Student dummy = new Student(name, major,gpa, creditsCompleted, enrolledInSections);
-        Section[] studentSections = enrolledInSections.getAllSections();
-
-        for(int i = 0; i < studentSections.length - 1; i++){
-            studentSections[i].addStudentId(dummy.getId());
-        }
-
-        dc.enrollStudent(dummy);
-
-        return Optional.of(dummy);
-    }
-
-
-    private static boolean studentAlreadyInSection(Section section, SectionsContainer enrolledInSections) {
-        for (Section enrolledSection : enrolledInSections.getAllSections()) {
-            if (enrolledSection.getCrn().equals(section.getCrn())) {
-                return true;
-            }
-        }
-        return false;
-    }
-     */
 
 
     private static Classroom generateClassroom(Major major){

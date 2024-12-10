@@ -10,56 +10,70 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collegeapp.perezrojocollegeappfinal.controller.InstructorPageController">
+<StackPane fx:id="backgroundStackPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collegeapp.perezrojocollegeappfinal.controller.InstructorPageController">
     <VBox spacing="15" style="-fx-padding: 20;">
-      <Button mnemonicParsing="false" onAction="#handleBackToOverview" text="Log Out" />
-        <TabPane tabClosingPolicy="UNAVAILABLE">
-         <tabs>
-            <Tab text="All Sections">
-               <content>
+        <HBox alignment="CENTER" spacing="10">
+            <children>
+                <Button mnemonicParsing="false" onAction="#handleBackToOverview" text="Log Out" />
+                <Label fx:id="schoolNameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="{ SCHOOL NAME }" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font name="Avenir Medium" size="48.0" />
+                    </font>
+                </Label>
+                <ImageView fx:id="schoolLogoImage" fitHeight="59.0" fitWidth="63.0" pickOnBounds="true"
+                           preserveRatio="true"/>
+            </children>
+        </HBox>
+        <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <tabs>
+                <Tab text="All Sections">
+                    <content>
                         <VBox spacing="15" VBox.vgrow="ALWAYS">
-                           <children>
-                              <TableView fx:id="sectionTableView" VBox.vgrow="ALWAYS">
-                                 <columns>
-                                    <TableColumn fx:id="crnColumn" prefWidth="57.5" text="CRN" />
-                                    <TableColumn fx:id="courseColumn" minWidth="0.0" prefWidth="68.0" text="Course" />
-                                    <TableColumn fx:id="numberColumn" prefWidth="65.0" text="Number" />
-                                    <TableColumn fx:id="startTimeColumn" prefWidth="67.0" text="Start" />
-                                    <TableColumn fx:id="endTimeColumn" prefWidth="57.0" text="End" />
-                                    <TableColumn fx:id="daysColumn" prefWidth="155.5" text="Days" />
-                                    <TableColumn fx:id="isOnlineColumn" prefWidth="67.0" text="Online" />
-                                    <TableColumn fx:id="creditsColumn" prefWidth="75.0" text="Credits" />
-                                    <TableColumn fx:id="instructorColumnTV" prefWidth="383.0" text="Instructor" />
-                                 </columns>
-                              </TableView>
-                           </children>
+                            <children>
+                                <TableView fx:id="sectionTableView" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="crnColumn" prefWidth="57.5" text="CRN" />
+                                        <TableColumn fx:id="courseColumn" minWidth="0.0" prefWidth="68.0" text="Course" />
+                                        <TableColumn fx:id="numberColumn" prefWidth="65.0" text="Number" />
+                                        <TableColumn fx:id="startTimeColumn" prefWidth="67.0" text="Start" />
+                                        <TableColumn fx:id="endTimeColumn" prefWidth="57.0" text="End" />
+                                        <TableColumn fx:id="daysColumn" prefWidth="155.5" text="Days" />
+                                        <TableColumn fx:id="isOnlineColumn" prefWidth="67.0" text="Online" />
+                                        <TableColumn fx:id="creditsColumn" prefWidth="75.0" text="Credits" />
+                                        <TableColumn fx:id="instructorColumnTV" prefWidth="383.0" text="Instructor" />
+                                    </columns>
+                                </TableView>
+                            </children>
                         </VBox>
-               </content>
-            </Tab>
-            <Tab text="All Instructors">
-               <content>
+                    </content>
+                </Tab>
+                <Tab text="All Instructors">
+                    <content>
                         <VBox VBox.vgrow="ALWAYS">
-                           <children>
-                              <TableView fx:id="instructorTableView" VBox.vgrow="ALWAYS">
-                                 <columns>
-                                     <TableColumn fx:id="idColumn" prefWidth="53.5" text="ID" />
-                                     <TableColumn fx:id="nameColumn" minWidth="0.0" prefWidth="138.0" text="Name" />
-                                     <TableColumn fx:id="majorTaughtColumn" prefWidth="71.89541625976562" text="Teaches" />
-                                     <TableColumn fx:id="creditsTeachingColumn" prefWidth="48.636627197265625" text="Credits" />
-                                     <TableColumn fx:id="hireDateColumn" prefWidth="111.0" text="Hired" />
-                                     <TableColumn fx:id="preferredCRNsColumn" prefWidth="154.0" text="Preferred CRNs" />
-                                     <TableColumn fx:id="preferredDaysColumn" prefWidth="166.5" text="Days" />
-                                     <TableColumn fx:id="preferredTimeSegmentsColumn" prefWidth="182.5" text="Time Segments" />
-                                 </columns>
-                              </TableView>
-                           </children>
+                            <children>
+                                <TableView fx:id="instructorTableView" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="idColumn" prefWidth="53.5" text="ID" />
+                                        <TableColumn fx:id="nameColumn" minWidth="0.0" prefWidth="138.0" text="Name" />
+                                        <TableColumn fx:id="majorTaughtColumn" prefWidth="71.89541625976562" text="Teaches" />
+                                        <TableColumn fx:id="creditsTeachingColumn" prefWidth="48.636627197265625" text="Credits" />
+                                        <TableColumn fx:id="hireDateColumn" prefWidth="111.0" text="Hired" />
+                                        <TableColumn fx:id="preferredCRNsColumn" prefWidth="154.0" text="Preferred CRNs" />
+                                        <TableColumn fx:id="preferredDaysColumn" prefWidth="166.5" text="Days" />
+                                        <TableColumn fx:id="preferredTimeSegmentsColumn" prefWidth="182.5" text="Time Segments" />
+                                    </columns>
+                                </TableView>
+                            </children>
                         </VBox>
-               </content>
-            </Tab>
+                    </content>
+                </Tab>
             <Tab text="Instructor Preferences">
                <content>
                         <VBox spacing="15" style="-fx-padding: 20;" VBox.vgrow="ALWAYS">
@@ -166,7 +180,7 @@
          </tabs></TabPane>
       <HBox alignment="BOTTOM_RIGHT">
          <children>
-            <Button fx:id="matchInstructorsButton" mnemonicParsing="false" text="Finalize and Match Instructors" />
+            <Button fx:id="matchInstructorsButton" mnemonicParsing="false" onAction="#handleSectionsMatching" text="Finalize and Match Instructors" />
          </children>
       </HBox>
     </VBox>

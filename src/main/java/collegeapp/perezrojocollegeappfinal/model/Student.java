@@ -27,9 +27,6 @@ public class Student implements Comparable<Student>, Serializable {
 
     /*
     Again the student base for the IDs has to be stored in DC to have it unique across majors
-
-
-
     public String getId() {
         return id;
     }
