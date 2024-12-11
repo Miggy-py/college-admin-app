@@ -2,6 +2,7 @@ package collegeapp.perezrojocollegeappfinal.config;
 
 public enum SchoolSettings {
     MAX_COURSE_SIZE(5),
+    MAX_CLASS_DAYS(2),
     // MAX_SECTION_SIZE(1000),
     // MAX_COLLEGE_SIZE(30000),
     LOWER_CRN(10000),

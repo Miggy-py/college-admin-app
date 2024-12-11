@@ -169,7 +169,7 @@ public class Utility implements Serializable {
      */
     private static LinkedHashSet<DaysOfWeek> randomClassDays(){
         // Select 2 or 4 random days for the class
-        int numberOfDays = rand.nextInt(2,5);
+        int numberOfDays = rand.nextInt(2,SchoolSettings.MAX_CLASS_DAYS.getSize() + 1);
 
         LinkedHashSet<DaysOfWeek> classDays = new LinkedHashSet<>(7);
         classDays.addAll(Arrays.asList(DaysOfWeek.values()));
